@@ -1,0 +1,25 @@
+server:
+  port: 8083
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+spring:
+  application:
+    name: zuul-server
+
+#api的路径如下面映射的话，浏览器通过网关访问所有系统的时候，需要注意如下：比如：
+#访问成员系统的member方法，输入路径：localhost:8083/member//member,
+#第一个member是指member系统，第二个member是指member系统里的member方法
+zuul:
+  routes:
+    api-a:
+      path: /member/**
+      service-id: member-server
+    api-b:
+      path: /order/**
+      service-id: order-server
+#加上这个，通过网关访问所有的系统里的方法时就不用 localhost:8083/member//member 这么写，
+#后面的两个斜杆可以改成一个，变成 localhost:8083/member/member
+#如果不加上这个，访问不同系统里的方法要加上两斜杆，不然会报504错误
+  ignored-services: '*'

@@ -1,0 +1,12 @@
+server:
+  port: 8082
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8080/eureka/
+spring:
+  application:
+    name: member-server
+feign:
+  hystrix:
+    enabled: true
